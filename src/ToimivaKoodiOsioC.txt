@@ -1,0 +1,103 @@
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+
+
+const Phonebook = ({filter, handleFiltering}) => {
+  return (
+    <div>
+    <h1>Phonebook</h1>
+      filter with name <input value ={filter} 
+        onChange={handleFiltering}></input>
+    </div>
+  )
+}
+
+const New = ({newName,handleChange,newNumber,handleNumber,klikklik}) => {
+  return (
+    <div>
+      <h2>Add a new</h2>
+      <form>
+        <div>
+          name: <input value={newName}
+          onChange={handleChange}/>
+        </div>
+        <div>
+          number: <input value = {newNumber}
+          onChange={handleNumber}/></div>
+        <div>
+          <button onClick={klikklik}type="submit">add</button>
+        </div>
+        </form>
+      </div>
+
+  )
+}
+
+const Numbers = ({filteredPersons}) => {
+  return(
+  <div>
+    <h2>Numbers</h2>
+      <div>      
+        {filteredPersons.map((person)=> (<p key={person.name}>{person.name} {person.number}</p>))}
+      </div>
+    </div>
+  )
+}
+
+const App = () => {
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
+
+  
+  const [persons, setPersons] = useState([]) 
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [filterName, setFilterName] = useState('')
+
+  const klikklik = (event) => {
+    event.preventDefault()
+    const sameName = persons.some(person => person.name === newName)
+    if(sameName){
+      window.alert(`${newName} is already added to phonebook`)
+  }
+  else{
+    setPersons(persons.concat({name: newName, number: newNumber}))
+  }
+}
+
+const filteredPersons = persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
+
+const handleFiltering = (event) =>{
+  setFilterName(event.target.value)
+}
+const handleChange = (event) => {
+  setNewName(event.target.value)
+}
+const handleNumber = (event) => {setNewNumber(event.target.value)}
+
+return (
+    <div>
+      <Phonebook filter = {filterName}
+      handleFiltering = {handleFiltering}/>
+
+      <New newName = {newName}
+      handleChange = {handleChange}
+      newNumber = {newNumber}
+      handleNumber = {handleNumber}
+      klikklik = {klikklik}
+      />
+      <Numbers filteredPersons = {filteredPersons}/>
+
+    </div>  
+  )
+}
+
+export default App
+
+
+
