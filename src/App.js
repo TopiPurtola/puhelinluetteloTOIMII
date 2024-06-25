@@ -90,6 +90,8 @@ const App = () => {
         setErrorMessage(null)
       },5000)
     }
+
+
   else{
     const newPerson = {name: newName, number: newNumber}
     Communication.
@@ -107,6 +109,23 @@ const App = () => {
           marginBottom: 10
     })
       setErrorMessage(newPerson.name + " was added succesfully!")
+      setTimeout(() => {
+        setErrorMessage(null)
+      },5000)
+    })
+    .catch(error => {
+      console.log(error.response.data)
+      setStyles(
+        {
+          color: 'red',
+          background: 'lightgrey',
+          fontSize: 20,
+          borderStyle: 'solid',
+          borderRadius: 5,
+          padding: 10,
+          marginBottom: 10
+    })
+      setErrorMessage(newName+ ' is too short! (Minimum 3 characters)')
       setTimeout(() => {
         setErrorMessage(null)
       },5000)
