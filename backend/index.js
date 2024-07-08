@@ -18,6 +18,7 @@ morgan.token('postdata', function(req, res) {
 
 app.use(morgan(':method :url :status :response-time ms - :postdata'));
 
+app.use(express.static('build'))
 app.use(express.json());
 
 
