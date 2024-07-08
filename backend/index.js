@@ -6,7 +6,7 @@ const app = express()
 const cors = require('cors')
 require('dotenv').config()
 const yhtTiedot = require('./models/yhtTiedot')
-app.use(express.static('build'))
+
 app.use(cors())
 
 morgan.token('postdata', function(req, res) {
@@ -20,7 +20,7 @@ app.use(morgan(':method :url :status :response-time ms - :postdata'));
 
 
 app.use(express.json());
-
+app.use(express.static('build'))
 
 
 const Lista = [ ]
