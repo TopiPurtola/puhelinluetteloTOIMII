@@ -1,5 +1,5 @@
-const { response } = require('express')
-const { request } = require('express')
+require('express')
+require('express')
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
@@ -9,7 +9,7 @@ const yhtTiedot = require('./models/yhtTiedot')
 
 app.use(cors())
 
-morgan.token('postdata', function(req, res) {
+morgan.token('postdata', function(req) {
   if (req.method === 'POST') {
     return JSON.stringify(req.body)
   }
@@ -23,7 +23,6 @@ app.use(express.json())
 app.use(express.static('build'))
 
 
-const Lista = [ ]
 
 app.get('/', (request, response) => {
   response.send('pekka')
@@ -99,7 +98,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   yhtTiedot.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
