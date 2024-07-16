@@ -18,8 +18,8 @@ mongoose.connect(url)
   })
 
 const tyyppiSchema = new mongoose.Schema({
-    name: {type: String, minlength: 3, required: true},
-    number: Number, 
+  name: { type: String, minlength: 3, required: true },
+  number: Number,
 })
 
 tyyppiSchema.set('toJSON', {

@@ -11,75 +11,75 @@ app.use(cors())
 
 morgan.token('postdata', function(req, res) {
   if (req.method === 'POST') {
-    return JSON.stringify(req.body);
+    return JSON.stringify(req.body)
   }
-  return '-';
-});
+  return '-'
+})
 
-app.use(morgan(':method :url :status :response-time ms - :postdata'));
+app.use(morgan(':method :url :status :response-time ms - :postdata'))
 
 
-app.use(express.json());
+app.use(express.json())
 app.use(express.static('build'))
 
 
 const Lista = [ ]
 
-  app.get('/', (request, response) => {
-  response.send("pekka")    
+app.get('/', (request, response) => {
+  response.send('pekka')
 })
 
 
 
 app.post('/api/persons', (request, response, next) => {
-  const body = request.body;
-  
+  const body = request.body
 
-  
+
+
   if (!body.name || !body.number) {
-    return response.status(400).json({ error: "Name or number not found" });
+    return response.status(400).json({ error: 'Name or number not found' })
   }
 
 
-  
-/*
+
+  /*
   const id = Math.floor(Math.random() * 100000);
-  const currentDate = new Date(); 
+  const currentDate = new Date();
 */
- 
+
   const yhteystieto = new yhtTiedot({
-  name: body.name,
-  number: body.number,
+    name: body.name,
+    number: body.number,
   })
 
   yhteystieto.save().then(savedtieto => {
     response.json(savedtieto)
   }).catch(error => next(error))
 
-/*
+  /*
   return response.status(201).json({
     name: yhteystieto.name,
     number: yhteystieto.number,
     message: "Entry added successfully",
     id,
-    date: currentDate.toISOString() 
+    date: currentDate.toISOString()
   });
   */
- 
-});
+
+})
 
 
 app.get ('/info', (request,response) => {
-  const currentDate = new Date(); 
+  const currentDate = new Date()
 
-    yhtTiedot.countDocuments({})
+  yhtTiedot.countDocuments({})
     .then(count => {
-      response.send ("Phonebook has the info of "+ count +" people<br>"+currentDate)
+      response.send ('Phonebook has the info of '+ count +' people<br>'+currentDate)
     })
 })
 
 app.get('/api/persons', (request, response) => {
-  yhtTiedot.find({}).then(Lista =>{
+  yhtTiedot.find({}).then(Lista => {
     response.json(Lista)
   })
 })
@@ -99,10 +99,10 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   yhtTiedot.findByIdAndDelete(request.params.id)
-  .then(result => {
-    response.status(204).end()
-  })
-  .catch(error => next(error))
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 

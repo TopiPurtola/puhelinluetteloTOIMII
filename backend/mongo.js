@@ -16,8 +16,8 @@ mongoose.set('strictQuery', false)
 mongoose.connect(url)
 
 const tyyppiSchema = new mongoose.Schema({
-  name: String, 
-  number: String, 
+  name: String,
+  number: String,
 })
 
 
@@ -29,15 +29,15 @@ const yhteystieto = new Yhteystieto({
   number: process.argv[4]
 })
 
-if (yhteystieto.name != null && yhteystieto.number != null) {
-  yhteystieto.save().then(result => {  
-    console.log('Added ' + yhteystieto.name + " number " + yhteystieto.number + " to phonebook")
+if (yhteystieto.name !== null && yhteystieto.number !== null) {
+  yhteystieto.save().then(() => {
+    console.log('Added ' + yhteystieto.name + ' number ' + yhteystieto.number + ' to phonebook')
     mongoose.connection.close()
   })
 }
 else{
   Yhteystieto.find({}).then(result => {
-    console.log("Phonebook:")
+    console.log('Phonebook:')
     result.forEach(yhteystieto => {
       console.log(yhteystieto.name, yhteystieto.number)
     })
